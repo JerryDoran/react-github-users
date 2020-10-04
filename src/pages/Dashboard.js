@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, Repos, User, Search, Navbar } from '../components';
+import { UserInfo, Repos, User, Search, Navbar } from '../components';
 import loadingImage from '../images/preloader.gif';
 import { GithubContext } from '../context/context';
 
@@ -8,7 +8,7 @@ const Dashboard = () => {
     <main>
       <Navbar />
       <Search />
-      <Info />
+      <UserInfo />
       <User />
       <Repos />
     </main>
