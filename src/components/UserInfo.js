@@ -97,7 +97,7 @@ const Wrapper = styled.section`
       text-transform: capitalize;
     }
     .pink {
-      background: #ffe0f0;
+      background: pink;
       color: #da4a91;
     }
     .green {
@@ -105,11 +105,11 @@ const Wrapper = styled.section`
       color: var(--clr-primary-5);
     }
     .purple {
-      background: #e6e6ff;
+      background: rgb(199, 184, 236);
       color: #5d55fa;
     }
     .yellow {
-      background: #fffbea;
+      background: rgb(236, 235, 184);
       color: #f0b429;
     }
   }
