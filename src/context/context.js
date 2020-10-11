@@ -22,14 +22,51 @@ const GithubProvider = ({ children }) => {
 
   // get user
   const searchGithubUser = async (user) => {
-    console.log(user);
+    toggleError();
+    setIsLoading(true);
+    const response = await axios(`${rootUrl}/users/${user}`).catch((err) =>
+      console.log(err)
+    );
+
+    if (response) {
+      setGithubUser(response.data);
+      const { login, followers_url } = response.data;
+
+      // repos
+      const repos = await axios(`${rootUrl}/users/${login}/repos?per_page=100`);
+      setRepos(repos.data);
+
+      // followers
+      const followers = await axios(`${followers_url}?per_page=100`);
+      setFollowers(followers.data);
+
+      // await Promise.allSettled([
+      //   axios(`${rootUrl}/users/${login}/repos?per_page=100`),
+      //   axios(`${followers_url}?per_page=100`),
+      // ])
+      //   .then((results) => {
+      //     const [repos, followers] = results;
+      //     const status = 'fulfilled';
+      //     if (repos.status === status) {
+      //       setRepos(repos.value.data);
+      //     }
+      //     if (followers.status === status) {
+      //       setFollowers(followers.value.data);
+      //     }
+      //   })
+      //   .catch((err) => console.log(err));
+    } else {
+      toggleError(true, 'There is no user with that username');
+    }
+
+    checkRequests();
+    setIsLoading(false);
   };
 
   // check rate
   const checkRequests = () => {
     axios(`${rootUrl}/rate_limit`)
       .then(({ data }) => {
-        console.log(data);
         let {
           rate: { remaining },
         } = data;
@@ -56,6 +93,7 @@ const GithubProvider = ({ children }) => {
         requests,
         error,
         searchGithubUser,
+        isLoading,
       }}
     >
       {children}
