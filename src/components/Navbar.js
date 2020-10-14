@@ -10,13 +10,24 @@ const Navbar = () => {
     user,
     isLoading,
   } = useAuth0();
-  console.log(isAuthenticated, user, isLoading);
+
+  const isUser = isAuthenticated && user;
+
   return (
     <Wrapper>
-      <button onClick={loginWithRedirect}>login</button>
-      <button onClick={() => logout({ returnTo: window.location.origin })}>
-        logout
-      </button>
+      {isUser && user.picture && <img src={user.picture} alt={user.name} />}
+      {isUser && user.name && (
+        <h4>
+          Welcome, <strong>{user.name.toUpperCase()}</strong>
+        </h4>
+      )}
+      {isUser ? (
+        <button onClick={() => logout({ returnTo: window.location.origin })}>
+          logout
+        </button>
+      ) : (
+        <button onClick={loginWithRedirect}>login</button>
+      )}
     </Wrapper>
   );
 };
